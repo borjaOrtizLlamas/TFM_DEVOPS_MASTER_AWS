@@ -1,0 +1,7 @@
+[Unit]
+Description=Logstash daemon
+[Service]
+ExecStart=/home/ubuntu/logstash/bin/logstash -f /home/ubuntu/logstash/config/small_comerce_api_rest.conf
+User=ubuntu
+[Install]
+WantedBy=multi-user.target

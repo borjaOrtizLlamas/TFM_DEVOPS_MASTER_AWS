@@ -1,0 +1,5 @@
+com\tfm\dto\Client.class
+com\borja\App.class
+com\borja\HealthCheck.class
+com\borja\AccesToDynamoDB.class
+com\borja\Aplication.class

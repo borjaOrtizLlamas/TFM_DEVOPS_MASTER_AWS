@@ -1,0 +1,51 @@
+---
+- hosts: all
+  vars:
+    local_root: files/
+  tasks:
+  - name: get GPG-key
+    shell: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - 
+    become: yes
+  - name: artifacs 
+    shell: echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list 
+    become: yes
+  - name: intall kibana
+    apt: 
+      name: "{{packages}}" 
+      state: present
+    vars:
+      packages:
+      - default-jdk
+      - apt-transport-https
+      - elasticsearch
+      - kibana
+      - unzip
+    become: true
+#logsStash
+  - name: download logstash
+    get_url:
+      url: https://artifacts.elastic.co/downloads/logstash/logstash-7.8.0.zip
+      dest: /home/ubuntu/logstash.zip
+      mode: 0777
+  - name: uzip logstash
+    shell: unzip /home/ubuntu/logstash.zip && mv /home/ubuntu/logstash-7.8.0 logstash && chmod -R 777 /home/ubuntu/logstash && mkdir /home/ubuntu/logstash/logs
+    become: yes
+  - name: 
+    copy:
+      src: "{{local_root}}logstash.service"
+      dest: /etc/systemd/system/
+    become: true
+  - name: 
+    copy:
+      src: "{{local_root}}small_comerce_api_rest.conf"
+      dest: /home/ubuntu/logstash/config/
+    become: true
+  - name: enable services
+    shell: /bin/systemctl daemon-reload && /bin/systemctl enable elasticsearch.service && /bin/systemctl enable kibana.service && /bin/systemctl enable logstash.service
+    become: yes
+  - name: setting config kibana
+    copy:
+      src: "{{local_root}}kibana.yml"
+      dest: /etc/kibana/kibana.yml
+      mode: 0755
+    become: yes

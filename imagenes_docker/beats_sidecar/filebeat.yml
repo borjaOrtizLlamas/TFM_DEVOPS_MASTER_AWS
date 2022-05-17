@@ -1,0 +1,6 @@
+filebeat.inputs:
+- type: log
+  paths:
+    - /var/log/spring.log
+output.logstash:
+  hosts: ["kibana.tfm.com:5044"]

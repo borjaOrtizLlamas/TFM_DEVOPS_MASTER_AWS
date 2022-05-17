@@ -1,0 +1,3 @@
+imagenes_packer/jenkins/provisioning/files/jenkins.zip
+imagenes_packer/jenkins/provisioning/files/aws.zip
+imagenes_packer/jenkins/provisioning/files/variables.tfvars
